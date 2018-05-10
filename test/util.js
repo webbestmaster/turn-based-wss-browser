@@ -1,21 +1,23 @@
 /* global setTimeout */
-const request = require('request');
-const socketIoClient = require('socket.io-client');
+// const request = require('request');
+import socketIoClient from './../module/socket/client.js';
 
-module.exports.getAsJson = url =>
-    new Promise((resolve, reject) =>
+export function getAsJson(url) {
+    return new Promise((resolve, reject) =>
         request(url, (error, response, body) => error ? reject(error) : resolve(JSON.parse(body))));
+}
 
-module.exports.postAsJson = (url, params) =>
-    new Promise((resolve, reject) =>
+export function postAsJson(url, params) {
+    return new Promise((resolve, reject) =>
         request.post(
             {
                 url,
                 form: params
             },
             (error, response, body) => error ? reject(error) : resolve(JSON.parse(body))));
+}
 
-module.exports.createUser = () => {
+export function createUser() {
     const clientData = {
         userId: '',
         socket: null,
@@ -40,7 +42,7 @@ module.exports.createUser = () => {
             resolve(clientData);
         });
     });
-};
+}
 
 function getServerOptions() {
     return {

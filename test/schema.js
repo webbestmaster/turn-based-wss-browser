@@ -1,7 +1,6 @@
-const messageConst = require('./../module/room/message.json');
+import messageConst from './../module/room/message.js';
 
-
-const meta = {
+export const meta = {
     type: 'object',
     required: ['order', 'timestamp', 'hash'],
     properties: {
@@ -17,10 +16,7 @@ const meta = {
     }
 };
 
-module.exports.meta = meta;
-
-
-const state = {
+export const state = {
     type: 'object',
     required: ['state', 'meta'],
     properties: {
@@ -31,19 +27,13 @@ const state = {
     }
 };
 
-module.exports.state = state;
-
-
-const stateArraySchema = {
+export const stateArraySchema = {
     type: 'array',
     uniqueItems: true,
     items: state
 };
 
-module.exports.stateArraySchema = stateArraySchema;
-
-
-const createRoom = {
+export const createRoom = {
     type: 'object',
     required: ['roomId'],
     properties: {
@@ -53,10 +43,7 @@ const createRoom = {
     }
 };
 
-module.exports.createRoom = createRoom;
-
-
-const getRoomIds = {
+export const getRoomIds = {
     type: 'object',
     required: ['roomIds'],
     properties: {
@@ -70,10 +57,7 @@ const getRoomIds = {
     }
 };
 
-module.exports.getRoomIds = getRoomIds;
-
-
-const joinIntoRoom = {
+export const joinIntoRoom = {
     type: 'object',
     required: ['type', 'roomId', 'userId', 'socketId'],
     properties: {
@@ -92,10 +76,7 @@ const joinIntoRoom = {
     }
 };
 
-module.exports.joinIntoRoom = joinIntoRoom;
-
-
-const joinIntoRoomMessage = {
+export const joinIntoRoomMessage = {
     type: 'object',
     required: ['type', 'roomId', 'states'],
     properties: {
@@ -125,10 +106,7 @@ const joinIntoRoomMessage = {
     }
 };
 
-module.exports.joinIntoRoomMessage = joinIntoRoomMessage;
-
-
-const leaveFromRoom = {
+export const leaveFromRoom = {
     type: 'object',
     required: ['type', 'roomId', 'userId'],
     properties: {
@@ -144,10 +122,7 @@ const leaveFromRoom = {
     }
 };
 
-module.exports.leaveFromRoom = leaveFromRoom;
-
-
-const leaveFromRoomMessage = {
+export const leaveFromRoomMessage = {
     type: 'object',
     required: ['type', 'roomId', 'states'],
     properties: {
@@ -177,10 +152,7 @@ const leaveFromRoomMessage = {
     }
 };
 
-module.exports.leaveFromRoomMessage = leaveFromRoomMessage;
-
-
-const takeTurn = {
+export const takeTurn = {
     type: 'object',
     required: ['type', 'roomId', 'activeUserId'],
     properties: {
@@ -196,10 +168,7 @@ const takeTurn = {
     }
 };
 
-module.exports.takeTurn = takeTurn;
-
-
-const takeTurnMessage = {
+export const takeTurnMessage = {
     type: 'object',
     required: ['type', 'roomId', 'states'],
     properties: {
@@ -229,10 +198,7 @@ const takeTurnMessage = {
     }
 };
 
-module.exports.takeTurnMessage = takeTurnMessage;
-
-
-const dropTurn = {
+export const dropTurn = {
     type: 'object',
     required: ['type', 'roomId', 'activeUserId'],
     properties: {
@@ -248,10 +214,7 @@ const dropTurn = {
     }
 };
 
-module.exports.dropTurn = dropTurn;
-
-
-const dropTurnMessage = {
+export const dropTurnMessage = {
     type: 'object',
     required: ['type', 'roomId', 'states'],
     properties: {
@@ -281,10 +244,7 @@ const dropTurnMessage = {
     }
 };
 
-module.exports.dropTurnMessage = dropTurnMessage;
-
-
-const pushState = {
+export const pushState = {
     type: 'object',
     required: ['type', 'roomId', 'states'],
     properties: {
@@ -307,10 +267,7 @@ const pushState = {
     }
 };
 
-module.exports.pushState = pushState;
-
-
-const pushStateFail = {
+export const pushStateFail = {
     type: 'object',
     required: ['type', 'roomId', 'states'],
     properties: {
@@ -326,10 +283,7 @@ const pushStateFail = {
     }
 };
 
-module.exports.pushStateFail = pushStateFail;
-
-
-const pushStateMessage = {
+export const pushStateMessage = {
     type: 'object',
     required: ['type', 'roomId', 'states'],
     properties: {
@@ -364,10 +318,7 @@ const pushStateMessage = {
     }
 };
 
-module.exports.pushStateMessage = pushStateMessage;
-
-
-const getStates = {
+export const getStates = {
     type: 'object',
     required: ['roomId', 'states'],
     properties: {
@@ -382,10 +333,7 @@ const getStates = {
     }
 };
 
-module.exports.getStates = getStates;
-
-
-const userDisconnectedFromRoomMessage = {
+export const userDisconnectedFromRoomMessage = {
     type: 'object',
     required: ['type', 'roomId', 'states'],
     properties: {
@@ -422,5 +370,3 @@ const userDisconnectedFromRoomMessage = {
         }
     }
 };
-
-module.exports.userDisconnectedFromRoomMessage = userDisconnectedFromRoomMessage;
