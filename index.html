@@ -1,0 +1,30 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>turn based wss browser</title>
+
+    <!-- need for chai-json-schema -->
+    <script src="./node_modules/jsonpointer.js/src/jsonpointer.js"></script>
+    <!-- need for chai-json-schema -->
+    <script src="./node_modules/tv4/tv4.js"></script>
+
+    <link href="./node_modules/mocha/mocha.css" rel="stylesheet"/>
+    <script src="./node_modules/mocha/mocha.js"></script>
+    <script src="./node_modules/chai/chai.js"></script>
+
+    <!-- need for chai-json-schema -->
+    <script src="./node_modules/chai-json-schema/index.js"></script>
+
+</head>
+<body>
+
+<div id="mocha"></div>
+
+<script type="module" src="./js/setup.js"></script>
+
+<script type="module" src="./js/import-test.js"></script>
+
+<script type="module" src="./js/run.js"></script>
+
+</body>
+</html>
