@@ -1,9 +1,11 @@
+// @flow
+
 const Stopwatch = require('timer-stopwatch');
 const roomConfig = require('./config-data.js');
-
+const {Room} = require('./index');
 const timersConfig = roomConfig.timers;
 
-function bindTimers(room) {
+function bindTimers(room: Room) {
     const attr = room.getAttr();
     const {timers} = attr;
 

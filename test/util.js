@@ -1,19 +1,21 @@
 /* global setTimeout */
-const request = require('request');
-const socketIoClient = require('socket.io-client');
+const {localRequest} = require('./../module/local-request');
+const {LocalSocketIoClient} = require('./../module/local-socket-io-client');
 
-module.exports.getAsJson = url =>
-    new Promise((resolve, reject) =>
-        request(url, (error, response, body) => error ? reject(error) : resolve(JSON.parse(body))));
+module.exports.getAsJson = url => {
+    return new Promise((resolve, reject) => {
+        localRequest
+            .get(url, (error, response, body) => error ? reject(error) : resolve(JSON.parse(body)));
+    });
+};
 
-module.exports.postAsJson = (url, params) =>
-    new Promise((resolve, reject) =>
-        request.post(
-            {
-                url,
-                form: params
-            },
-            (error, response, body) => error ? reject(error) : resolve(JSON.parse(body))));
+module.exports.postAsJson = (url, params) => {
+    return new Promise((resolve, reject) => {
+        localRequest
+            .post(url, params,
+                (error, response, body) => error ? reject(error) : resolve(JSON.parse(body)));
+    });
+};
 
 module.exports.createUser = () => {
     const clientData = {
@@ -28,14 +30,16 @@ module.exports.createUser = () => {
             'force new connection': true
         };
 
-        const socket = socketIoClient.connect('http://localhost:' + getServerOptions().port, options);
+        const localSocketIoClient = new LocalSocketIoClient();
 
-        socket.on('message', message => clientData.messages.push(message));
+        localSocketIoClient.connect('http://localhost:' + getServerOptions().port, options);
 
-        socket.on('connect', () => {
+        localSocketIoClient.on('message', message => clientData.messages.push(message));
+
+        localSocketIoClient.on('connect', () => {
             Object.assign(clientData, {
-                socket,
-                userId: 'user-id-' + socket.id
+                socket: localSocketIoClient,
+                userId: 'user-id-' + localSocketIoClient.id
             });
             resolve(clientData);
         });

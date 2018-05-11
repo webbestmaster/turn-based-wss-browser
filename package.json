@@ -13,7 +13,8 @@
     "flow:build": "flow-remove-types ./src/ -d ./module/ --all --pretty",
     "test-all": "mocha ./test/**/*.test.js",
     "test": "mocha ./test/**/create.test.js",
-    "test-cover": "istanbul cover --root ./ _mocha ./test/**/*.test.js"
+    "test-cover": "istanbul cover --root ./ _mocha ./test/**/*.test.js",
+    "dev-nix": "watch --wait=1 'flow-remove-types ./src/ -d ./module/ --all --pretty'"
   },
   "repository": {
     "type": "git",
@@ -26,13 +27,8 @@
   },
   "homepage": "https://github.com/webbestmaster/turn-based-wss-browser#readme",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "express": "^4.16.3",
-    "ip": "^1.1.5",
     "lodash": "^4.17.10",
     "sha1": "^1.1.1",
-    "socket.io": "^2.1.0",
-    "socket.io-client": "^2.1.0",
     "timer-stopwatch": "^0.2.0"
   },
   "devDependencies": {
@@ -46,7 +42,6 @@
     "flow-typed": "^2.4.0",
     "istanbul": "^0.4.5",
     "mocha": "^5.1.1",
-    "request": "^2.85.0",
     "sinon": "^5.0.7"
   }
 }

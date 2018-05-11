@@ -1,3 +1,5 @@
+// @flow
+
 module.exports = {
     type: {
         joinIntoRoom: 'room__join-into-room',

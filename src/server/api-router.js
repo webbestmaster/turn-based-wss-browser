@@ -1,4 +1,7 @@
-const bodyParser = require('body-parser');
+// @flow
+const {Server} = require('./index');
+const {LocalExpressRequest} = require('./../local-express/request');
+const {LocalExpressResponse} = require('./../local-express/response');
 
 const apiRoomCreate = require('./api/room/create');
 const apiRoomGetIds = require('./api/room/get-ids');
@@ -22,23 +25,25 @@ const apiGetAllStates = require('./api/room/get-all-states');
 const apiGetStatesFromHash = require('./api/room/get-states-from-hash');
 
 module.exports.apiRouter = {
-    bindRoutes: server => {
+    bindRoutes: (server: Server) => {
         const expressApp = server.getExpressApp();
 
         // fix CORS
-        expressApp.use((req, res, next) => {
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-            next();
-        });
+        // expressApp.use((req, res, next) => {
+        //     res.header('Access-Control-Allow-Origin', '*');
+        //     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+        //     next();
+        // });
 
-        expressApp.use(bodyParser.urlencoded({extended: false}));
-        expressApp.use(bodyParser.json());
+        // expressApp.use(bodyParser.urlencoded({extended: false}));
+        // expressApp.use(bodyParser.json());
 
         /**
          * create room
          */
-        expressApp.get('/api/room/create', (req, res) => apiRoomCreate(req, res, server));
+        expressApp.get('/api/room/create', (req: LocalExpressRequest, res: LocalExpressResponse) => {
+            apiRoomCreate(req, res, server);
+        });
 
         /**
          * get room ids

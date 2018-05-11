@@ -4,7 +4,14 @@
 
 const find = require('lodash/find');
 
+const {Room} = require('./index');
+
+type AttrType = {|
+    +rooms: Array<Room>
+|};
+
 class RoomMaster {
+    _attr: AttrType; // eslint-disable-line no-underscore-dangle, id-match
     constructor() {
         const roomMaster = this;
 
@@ -13,18 +20,18 @@ class RoomMaster {
         };
     }
 
-    push(room) {
+    push(room: Room) {
         const roomMaster = this;
         const rooms = roomMaster.getRooms();
 
         rooms.push(room);
     }
 
-    removeRoomById(roomId) {
+    removeRoomById(roomId: string) {
         const roomMaster = this;
         const rooms = roomMaster.getRooms();
 
-        const roomToRemove = find(rooms, room => room.getId() === roomId);
+        const roomToRemove = find(rooms, (room: Room): boolean => room.getId() === roomId);
 
         if (!roomToRemove) {
             console.log('WARNING ---> room is not exists, room id is: ' + roomId);
@@ -36,11 +43,11 @@ class RoomMaster {
         rooms.splice(roomToRemoveIndex, 1);
     }
 
-    getRoomById(roomId) {
+    getRoomById(roomId: string): Room | null {
         const roomMaster = this;
         const rooms = roomMaster.getRooms();
 
-        return find(rooms, room => room.getId() === roomId);
+        return find(rooms, room => room.getId() === roomId) || null;
     }
 
     getRoomIds() {

@@ -4,51 +4,45 @@
 
 /* global __dirname */
 
-const ip = require('ip'); // eslint-disable-line id-length
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
+const {LocalExpress} = require('./../local-express');
+const {LocalHttpServer} = require('./../local-http-server');
+const {LocalSocketIoServer} = require('../local-socket-io-server');
 const apiRouter = require('./api-router').apiRouter;
 const roomMaster = require('./../room/master').roomMaster;
 
 type ServerConstructorOptionsType = {|
-    +port?: string
+    port: number
 |};
 
 const serverDefaultOptions: ServerConstructorOptionsType = {
-    port: 3000,
-    'static': 'static'
+    port: 3000
 };
+
+type AttrType = {|
+    +options: ServerConstructorOptionsType,
+    +expressApp: LocalExpress,
+    +httpServer: LocalHttpServer,
+    +socketIoServer: LocalSocketIoServer
+|};
 
 /**
  *
  * @param {Object} options - options for new TBW
  *      @param {number} options.port - port to lister
- *      @param {string} options.static - path to static files
  */
 class Server {
+    _attr: AttrType; // eslint-disable-line no-underscore-dangle, id-match
     constructor(options: ServerConstructorOptionsType) {
         const server = this;
 
-        const attr = {
-            options: Object.assign(serverDefaultOptions, options),
-            expressApp: null,
-            httpServer: null,
-            socketIoServer: null
-        };
-
-        const expressApp = express();
-        const httpServer = http.Server(expressApp); // eslint-disable-line new-cap
-        const socketIoServer = socketIo(httpServer);
-
-        Object.assign(attr, {
-            expressApp,
-            httpServer,
-            socketIoServer
-        });
+        const expressApp = new LocalExpress();
+        const httpServer = new LocalHttpServer(expressApp);
+        const socketIoServer = new LocalSocketIoServer(httpServer);
 
         server._attr = { // eslint-disable-line no-underscore-dangle, id-match
-            options: Object.assign(serverDefaultOptions, options),
+            options: {
+                port: typeof options.port === 'number' ? options.port : serverDefaultOptions.port
+            },
             expressApp,
             httpServer,
             socketIoServer
@@ -59,15 +53,15 @@ class Server {
         return new Promise((resolve, reject) => {
             const server = this;
             const httpServer = server.getHttpServer();
-            const socketIoServer = server.getSocketIoServer();
+            // const socketIoServer = server.getSocketIoServer();
             const options = server.getOptions();
 
-            server.getExpressApp().use(express.static(server.getOptions().static));
+            // server.getExpressApp().use(express.static(server.getOptions().static));
 
             apiRouter.bindRoutes(server);
 
             httpServer.listen(options.port, () => {
-                console.log('TBW listening on ' + ip.address() + ':' + options.port);
+                console.log('TBW listening on local:' + options.port);
                 resolve();
             });
 
@@ -84,11 +78,11 @@ class Server {
         });
     }
 
-    destroy() {
+    destroy(): Promise<void> {
         const server = this;
         const httpServer = server.getHttpServer();
         const socketIoServer = server.getSocketIoServer();
-        const port = server.getOptions().port;
+        const options = server.getOptions();
 
         // const expressApp = server.getExpressApp();
 
@@ -96,31 +90,31 @@ class Server {
 
         return Promise
             .all([
-                new Promise((resolve, reject) => socketIoServer.close(resolve)),
-                new Promise((resolve, reject) => httpServer.close(resolve))
+                new Promise((resolve, reject): void => socketIoServer.close(resolve)),
+                new Promise((resolve, reject): void => httpServer.close(resolve))
             ])
             .then(() => {
-                console.log('TBW stop listen ' + ip.address() + ':' + port);
+                console.log('TBW top listen on local:' + options.port);
             });
     }
 
-    getAttr() {
+    getAttr(): AttrType {
         return this._attr; // eslint-disable-line no-underscore-dangle
     }
 
-    getExpressApp() {
+    getExpressApp(): LocalExpress {
         return this.getAttr().expressApp;
     }
 
-    getHttpServer() {
+    getHttpServer(): LocalHttpServer {
         return this.getAttr().httpServer;
     }
 
-    getSocketIoServer() {
+    getSocketIoServer(): LocalSocketIoServer {
         return this.getAttr().socketIoServer;
     }
 
-    getOptions() {
+    getOptions(): serverDefaultOptions {
         return this.getAttr().options;
     }
 }

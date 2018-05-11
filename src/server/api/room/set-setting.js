@@ -1,7 +1,11 @@
+// @flow
+
 const roomMaster = require('./../../../room/master').roomMaster;
+const {LocalExpressRequest} = require('./../../../local-express/request');
+const {LocalExpressResponse} = require('./../../../local-express/response');
 const error = require('../error-data.js');
 
-module.exports = (req, res) => {
+module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
     const {params, body} = req;
     const {roomId} = params;
 
