@@ -3,6 +3,7 @@ const roomConfig = require('./../config.json');
 const Stopwatch = require('timer-stopwatch');
 
 class RoomConnection {
+
     /**
      *
      * @constructor

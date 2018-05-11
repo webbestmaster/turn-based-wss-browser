@@ -12,6 +12,7 @@ const serverDefaultOptions = {
 };
 
 class Server {
+
     /**
      *
      * @param {Object} options - options for new TBW

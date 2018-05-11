@@ -1,0 +1,20 @@
+[ignore]
+./_before/**/
+./_before_/**/
+./dist/*
+
+[include]
+./flow-typed/**/
+
+[libs]
+
+[lints]
+all=warn
+
+[options]
+#all=true
+module.name_mapper='^.*\.s?css$' -> 'css-module-flow'
+include_warnings=true
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe
+module.use_strict=true
+munge_underscores=true
