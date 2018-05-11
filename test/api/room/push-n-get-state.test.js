@@ -15,7 +15,7 @@ const pushStateFailSchema = require('./../../schema').pushStateFail;
 const stateSchema = require('./../../schema').state;
 const stateArraySchema = require('./../../schema').stateArraySchema;
 const pushStateMessageSchema = require('./../../schema').pushStateMessage;
-const messageConst = require('./../../../module/room/message.json');
+const messageConst = require('./../../../module/room/message-data');
 
 describe('POST /api/room/push-state/:roomId/:userId', () => {
     let server = null;

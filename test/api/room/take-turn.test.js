@@ -12,7 +12,7 @@ chai.use(require('chai-json-schema'));
 const path = require('path');
 const takeTurnSchema = require('./../../schema').takeTurn;
 const takeTurnMessageSchema = require('./../../schema').takeTurnMessage;
-const messageConst = require('./../../../module/room/message.json');
+const messageConst = require('./../../../module/room/message-data');
 
 describe('GET /api/room/take-turn/:roomId/:userId', () => {
     let server = null;

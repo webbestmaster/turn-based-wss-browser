@@ -12,8 +12,8 @@ chai.use(require('chai-json-schema'));
 const path = require('path');
 const joinIntoRoomSchema = require('./../../schema').joinIntoRoom;
 const joinIntoRoomMessageSchema = require('./../../schema').joinIntoRoomMessage;
-const messageConst = require('./../../../module/room/message.json');
-const error = require('./../../../module/server/api/error.json');
+const messageConst = require('./../../../module/room/message-data');
+const error = require('./../../../module/server/api/error-data');
 
 describe('GET /api/room/join/:roomId/:userId/:socketId', () => {
     let server = null;

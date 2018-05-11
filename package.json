@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
-    "flow": "flow",
+    "flow": "flow ./src/",
     "flow:build": "flow-remove-types ./src/ -d ./module/ --all --pretty",
     "test-all": "mocha ./test/**/*.test.js",
     "test": "mocha ./test/**/create.test.js",

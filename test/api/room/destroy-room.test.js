@@ -11,7 +11,7 @@ chai.use(require('chai-json-schema'));
 
 // self variables
 const path = require('path');
-const roomConfig = require('./../../../module/room/config.json');
+const roomConfig = require('./../../../module/room/config-data');
 
 describe('destroy room', () => {
     let server = null;
