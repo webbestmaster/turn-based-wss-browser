@@ -14,3 +14,6 @@ package-lock.json
 
 # AT
 coverage
+
+# dist
+/module/

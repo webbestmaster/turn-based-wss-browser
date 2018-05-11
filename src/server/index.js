@@ -1,4 +1,9 @@
+// @flow
+
+/* eslint consistent-this: ["error", "server"] */
+
 /* global __dirname */
+
 const ip = require('ip'); // eslint-disable-line id-length
 const express = require('express');
 const http = require('http');
@@ -6,20 +11,23 @@ const socketIo = require('socket.io');
 const apiRouter = require('./api-router').apiRouter;
 const roomMaster = require('./../room/master').roomMaster;
 
-const serverDefaultOptions = {
+type ServerConstructorOptionsType = {|
+    +port?: string
+|};
+
+const serverDefaultOptions: ServerConstructorOptionsType = {
     port: 3000,
     'static': 'static'
 };
 
+/**
+ *
+ * @param {Object} options - options for new TBW
+ *      @param {number} options.port - port to lister
+ *      @param {string} options.static - path to static files
+ */
 class Server {
-
-    /**
-     *
-     * @param {Object} options - options for new TBW
-     *      @param {number} options.port - port to lister
-     *      @param {string} options.static - path to static files
-     */
-    constructor(options) {
+    constructor(options: ServerConstructorOptionsType) {
         const server = this;
 
         const attr = {
@@ -39,7 +47,12 @@ class Server {
             socketIoServer
         });
 
-        server._attr = attr; // eslint-disable-line no-underscore-dangle, id-match
+        server._attr = { // eslint-disable-line no-underscore-dangle, id-match
+            options: Object.assign(serverDefaultOptions, options),
+            expressApp,
+            httpServer,
+            socketIoServer
+        };
     }
 
     run() {

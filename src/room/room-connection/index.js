@@ -1,17 +1,20 @@
+// @flow
+
+/* eslint consistent-this: ["error", "roomConnection"] */
+
 const messageConst = require('../message-data.js');
 const roomConfig = require('../config-data.js');
 const Stopwatch = require('timer-stopwatch');
 
+/**
+ *
+ * @constructor
+ * @param {Object} options - options for new room's connection
+ *      @param {String} options.socketId - socket's id
+ *      @param {String} options.userId - user's id
+ *      @param {Object} options.room - parent room
+ */
 class RoomConnection {
-
-    /**
-     *
-     * @constructor
-     * @param {Object} options - options for new room's connection
-     *      @param {String} options.socketId - socket's id
-     *      @param {String} options.userId - user's id
-     *      @param {Object} options.room - parent room
-     */
     constructor(options) {
         const roomConnection = this;
 

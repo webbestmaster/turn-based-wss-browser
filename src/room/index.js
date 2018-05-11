@@ -1,3 +1,7 @@
+// @flow
+
+/* eslint consistent-this: ["error", "room"] */
+
 const roomMaster = require('./master').roomMaster;
 const RoomConnection = require('./room-connection').RoomConnection;
 const find = require('lodash/find');

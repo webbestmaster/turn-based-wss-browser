@@ -1,5 +1,6 @@
 # IDE
 /.idea/
+/module/
 
 # npm
 node_modules
