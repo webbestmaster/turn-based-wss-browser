@@ -49,8 +49,8 @@ class Server {
         };
     }
 
-    run() {
-        return new Promise((resolve, reject) => {
+    run(): Promise<void> {
+        return new Promise((resolve: () => void, reject: () => void) => {
             const server = this;
             const httpServer = server.getHttpServer();
             // const socketIoServer = server.getSocketIoServer();
@@ -90,8 +90,8 @@ class Server {
 
         return Promise
             .all([
-                new Promise((resolve, reject): void => socketIoServer.close(resolve)),
-                new Promise((resolve, reject): void => httpServer.close(resolve))
+                new Promise((resolve: () => void, reject: () => void): void => socketIoServer.close(resolve)),
+                new Promise((resolve: () => void, reject: () => void): void => httpServer.close(resolve))
             ])
             .then(() => {
                 console.log('TBW top listen on local:' + options.port);
