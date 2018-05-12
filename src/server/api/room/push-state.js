@@ -1,6 +1,6 @@
 // @flow
 
-const roomMaster = require('./../../../room/master').roomMaster;
+const {roomMaster} = require('./../../../room/master');
 const {LocalExpressRequest} = require('./../../../local-express/request');
 const {LocalExpressResponse} = require('./../../../local-express/response');
 const error = require('../error-data.js');

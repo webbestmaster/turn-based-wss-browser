@@ -4,6 +4,7 @@
 
 /* eslint consistent-this: ["error", "httpServer"] */
 import type {RequestCallBackType} from './../local-request';
+import type {PushedStateType} from './../room/index';
 
 const {localMaster} = require('./../local-master');
 const {LocalExpress} = require('./../local-express');
@@ -27,7 +28,7 @@ class LocalHttpServer {
         };
     }
 
-    onRequest(requestType: 'get' | 'post', url: string, form: mixed, requestCallBack: RequestCallBackType) {
+    onRequest(requestType: 'get' | 'post', url: string, form: PushedStateType, requestCallBack: RequestCallBackType) {
         const httpServer = this;
         const {expressApp} = httpServer.attr;
 

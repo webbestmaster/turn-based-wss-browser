@@ -5,6 +5,8 @@
 const {LocalHttpServer} = require('./../local-http-server');
 const {getPort} = require('./../helper');
 
+import type {PushedStateType} from './../room/index';
+
 import type {RequestCallBackType} from './../local-request';
 
 type AttrType = {|
@@ -48,7 +50,7 @@ class LocalMaster {
         httpServerList.splice(indexOfLocalHttpServer, 1);
     }
 
-    triggerHttp(requestType: 'get' | 'post', url: string, form: mixed, requestCallBack: RequestCallBackType) {
+    triggerHttp(requestType: 'get' | 'post', url: string, form: PushedStateType, requestCallBack: RequestCallBackType) {
         const localMaster = this;
         const {httpServerList} = localMaster.attr;
 

@@ -64,6 +64,10 @@ class LocalSocketIoClient {
 
         listenerList.splice(0, listenerList.length);
     }
+
+    emit(eventName: 'message', data: mixed) {
+        console.error('implement!!!!, get emit for current client ', data);
+    }
 }
 
 module.exports.LocalSocketIoClient = LocalSocketIoClient;

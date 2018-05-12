@@ -5,17 +5,20 @@
 /* eslint consistent-this: ["error", "localRequest"] */
 const {localMaster} = require('./../local-master');
 
+import type {PushedStateType} from './../room/index';
+
 export type RequestCallBackType = (error: Error | null, response: mixed, body: string) => void;
 
-function request(requestType: 'get' | 'post', url: string, form: mixed, requestCallBack: RequestCallBackType) {
+function request(requestType: 'get' | 'post',
+                 url: string, form: PushedStateType, requestCallBack: RequestCallBackType) {
     setTimeout((): void => localMaster.triggerHttp(requestType, url, form, requestCallBack), 0);
 }
 
-function get(url: string, requestCallBack: RequestCallBackType) {
-    request('get', url, null, requestCallBack);
+function get(url: string, form: PushedStateType, requestCallBack: RequestCallBackType) {
+    request('get', url, form, requestCallBack);
 }
 
-function post(url: string, form: mixed, requestCallBack: RequestCallBackType) {
+function post(url: string, form: PushedStateType, requestCallBack: RequestCallBackType) {
     request('post', url, form, requestCallBack);
 }
 

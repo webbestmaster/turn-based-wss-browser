@@ -22,7 +22,7 @@ module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
     }
 
 
-    const lastStates = room.getLastStates(count);
+    const lastStates = room.getLastStates(parseInt(count, 10));
 
     res.json({
         roomId,

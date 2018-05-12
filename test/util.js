@@ -5,7 +5,8 @@ const {LocalSocketIoClient} = require('./../module/local-socket-io-client');
 module.exports.getAsJson = url => {
     return new Promise((resolve, reject) => {
         localRequest
-            .get(url, (error, response, body) => error ? reject(error) : resolve(JSON.parse(body)));
+            .get(url, null,
+                (error, response, body) => error ? reject(error) : resolve(JSON.parse(body)));
     });
 };
 

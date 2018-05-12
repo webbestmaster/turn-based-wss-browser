@@ -5,6 +5,7 @@
 // expressApp.get('/api/room/create', (req, res) => apiRoomCreate(req, res, server));
 
 import type {RequestCallBackType} from '../local-request';
+import type {PushedStateType} from './../room/index';
 
 const {LocalExpressRequest} = require('./request');
 const {LocalExpressResponse} = require('./response');
@@ -33,7 +34,7 @@ class LocalExpress {
         };
     }
 
-    onRequest(requestType: 'get' | 'post', url: string, form: mixed, requestCallBack: RequestCallBackType) {
+    onRequest(requestType: 'get' | 'post', url: string, form: PushedStateType, requestCallBack: RequestCallBackType) {
         const localExpress = this;
         const {listenerList} = localExpress.attr;
 
@@ -49,10 +50,7 @@ class LocalExpress {
             }
 
             const params = urlMask.getParams(url);
-            const req = new LocalExpressRequest({
-                params,
-                body: form
-            });
+            const req = new LocalExpressRequest({params, body: form});
             const res = new LocalExpressResponse({callBack: requestCallBack});
 
             listener.callback(req, res);
