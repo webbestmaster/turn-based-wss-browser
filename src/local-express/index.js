@@ -8,6 +8,7 @@ import type {RequestCallBackType} from '../local-request';
 
 const {LocalExpressRequest} = require('./request');
 const {LocalExpressResponse} = require('./response');
+const {UrlMask} = require('./url-mask');
 
 type ExpressCallBackType = (req: LocalExpressRequest, res: LocalExpressResponse) => void;
 
@@ -35,16 +36,27 @@ class LocalExpress {
     onRequest(requestType: 'get' | 'post', url: string, form: mixed, requestCallBack: RequestCallBackType) {
         const localExpress = this;
         const {listenerList} = localExpress.attr;
-        const req = new LocalExpressRequest();
-        const res = new LocalExpressResponse({callBack: requestCallBack});
 
-        // todo:
-        // 1 - check needed type
-        // 2 - check needed url
-        // 3 - get params from url and pass they into req
-        console.error('you stay here!');
+        listenerList.forEach((listener: LocalExpressListenerType) => {
+            if (listener.type !== requestType) {
+                return;
+            }
 
-        listenerList[0].callback(req, res);
+            const urlMask = new UrlMask({initialUrl: listener.url});
+
+            if (!urlMask.isCover(url)) {
+                return;
+            }
+
+            const params = urlMask.getParams(url);
+            const req = new LocalExpressRequest({
+                params,
+                body: form
+            });
+            const res = new LocalExpressResponse({callBack: requestCallBack});
+
+            listener.callback(req, res);
+        });
     }
 
     addListener(type: 'get' | 'post', url: string, callback: ExpressCallBackType) {

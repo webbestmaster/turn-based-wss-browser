@@ -114,7 +114,7 @@ class Server {
         return this.getAttr().socketIoServer;
     }
 
-    getOptions(): serverDefaultOptions {
+    getOptions(): ServerConstructorOptionsType {
         return this.getAttr().options;
     }
 }

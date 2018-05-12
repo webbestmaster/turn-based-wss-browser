@@ -2,22 +2,21 @@
 
 /* eslint consistent-this: ["error", "localExpressRequest"] */
 
-type ParamsType = {|
-    roomId?: string,
-    userId?: string,
-    socketId?: string,
-    count?: string,
-    hash?: string,
-    key?: string
+type ParamsType = { +[key: string]: string };
+type ConstructorOptionsType = {|
+    +params: ParamsType,
+    +body: mixed
 |};
 
 class LocalExpressRequest {
     params: ParamsType;
+    body: mixed;
 
-    constructor() {
-        // const localExpressRequest = this;
+    constructor(constructorOptions: ConstructorOptionsType) {
+        const localExpressRequest = this;
 
-        // localExpressRequest.params = {};
+        localExpressRequest.params = constructorOptions.params;
+        localExpressRequest.body = constructorOptions.body;
     }
 }
 
