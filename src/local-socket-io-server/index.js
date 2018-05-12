@@ -62,17 +62,35 @@ class LocalSocketIoServer {
     connectSocket(socket: LocalSocketIoClient) {
         const localSocketIoServer = this;
         const {sockets} = localSocketIoServer;
+
+        sockets.connected[socket.id] = socket;
     }
 
-    to(socketId: string): LocalSocketIoClient {
-        console.error('implement!!!!, get LocalSocketIoClient with socketId', socketId);
-        return new LocalSocketIoClient();
+    disconnectSocket(socket: LocalSocketIoClient) {
+        const localSocketIoServer = this;
+        const {sockets} = localSocketIoServer;
+
+        sockets.connected[socket.id].removeAllListeners();
+
+        Reflect.deleteProperty(sockets.connected, socket.id);
+    }
+
+    to(socketId: string): LocalSocketIoClient | null {
+        const localSocketIoServer = this;
+        const {sockets} = localSocketIoServer;
+
+        return sockets.connected[socketId] || null;
     }
 
     close(callback?: () => void) {
         const localSocketIoServer = this;
+        const {sockets} = localSocketIoServer;
 
         localSocketIoServer.unbindEventListener();
+
+        Object.keys(sockets.connected).forEach(key => {
+            sockets.connected[key].disconnect();
+        });
 
         if (typeof callback === 'function') {
             setTimeout(callback, 0);

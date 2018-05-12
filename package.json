@@ -12,7 +12,7 @@
     "flow": "flow",
     "flow:build": "flow-remove-types ./src/ -d ./module/ --all --pretty",
     "test-all": "mocha ./test/**/*.test.js",
-    "test": "mocha ./test/**/create.test.js",
+    "test": "mocha ./test/**/push-n-get-state.test.js",
     "test-cover": "istanbul cover --root ./ _mocha ./test/**/*.test.js",
     "dev-nix": "watch --wait=1 'flow-remove-types ./src/ -d ./module/ --all --pretty'"
   },

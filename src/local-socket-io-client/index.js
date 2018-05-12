@@ -3,8 +3,8 @@
 /* global setTimeout */
 
 /* eslint consistent-this: ["error", "localSocketIoClient"] */
-// const {localMaster} = require('./../local-master');
-// const {LocalSocketIoServer} = require('./../local-socket-io-server');
+const {localMaster} = require('./../local-master');
+const {LocalSocketIoServer} = require('./../local-socket-io-server');
 
 type EventNameType = 'message' | 'connect' | 'disconnect';
 
@@ -21,9 +21,12 @@ type AttrType = {|
 
 class LocalSocketIoClient {
     attr: AttrType;
+    id: string;
 
     constructor() {
         const localSocketIoClient = this;
+
+        localSocketIoClient.id = 'local-socket-id-' + Math.random();
 
         localSocketIoClient.attr = {
             listenerList: [],
@@ -38,11 +41,27 @@ class LocalSocketIoClient {
         localSocketIoClient.attr.url = url;
         localSocketIoClient.attr.options = options;
 
-        // localMaster.attr.socketIoServerList.forEach((socketServer: LocalSocketIoServer) => {
-        //
-        // });
+        localMaster.attr.socketIoServerList.forEach((socketIoServer: LocalSocketIoServer) => {
+            console.log('connect to needed server');
+            // console.log(socketIoServer, localSocketIoClient);
+            socketIoServer.connectSocket(localSocketIoClient);
+        });
 
         setTimeout((): void => localSocketIoClient.trigger('connect', null), 0);
+    }
+
+    disconnect() {
+        const localSocketIoClient = this;
+
+        // localSocketIoClient.attr.url = url;
+        // localSocketIoClient.attr.options = options;
+
+        localMaster.attr.socketIoServerList.forEach((socketIoServer: LocalSocketIoServer) => {
+            localSocketIoClient.removeAllListeners();
+            socketIoServer.disconnectSocket(localSocketIoClient);
+        });
+
+        setTimeout((): void => localSocketIoClient.trigger('disconnect', null), 0);
     }
 
     on(eventName: EventNameType, callBack: (message?: mixed) => void) { // eslint-disable-line id-length
@@ -72,7 +91,17 @@ class LocalSocketIoClient {
     }
 
     emit(eventName: 'message', data: mixed) {
-        console.error('implement!!!!, get emit for current client ', data);
+        this.trigger('message', data);
+
+        // console.error('implement!!!!, get emit for current client ', data);
+        // console.error('implement!!!!, get emit for current client ', data);
+        // console.error('implement!!!!, get emit for current client ', data);
+        // console.error('implement!!!!, get emit for current client ', data);
+        // console.error('implement!!!!, get emit for current client ', data);
+        // console.error('implement!!!!, get emit for current client ', data);
+        // console.error('implement!!!!, get emit for current client ', data);
+        // console.error('implement!!!!, get emit for current client ', data);
+        // console.error('implement!!!!, get emit for current client ', data);
     }
 }
 

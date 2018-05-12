@@ -366,7 +366,13 @@ class Room {
         const socketIoServer = server.getSocketIoServer();
 
         connections.forEach((connection: RoomConnection) => {
-            socketIoServer.to(connection.getAttr().socketId).emit('message', data);
+            const socketClient = socketIoServer.to(connection.getAttr().socketId);
+
+            if (socketClient === null) {
+                return;
+            }
+
+            socketClient.emit('message', data);
         });
     }
 
