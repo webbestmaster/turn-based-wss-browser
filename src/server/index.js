@@ -5,8 +5,8 @@
 /* global __dirname */
 
 const {LocalExpress} = require('./../local-express');
-const {LocalHttpServer} = require('./../local-http-server');
 const {LocalSocketIoServer} = require('../local-socket-io-server');
+const {LocalHttpServer} = require('./../local-http-server');
 const apiRouter = require('./api-router').apiRouter;
 const roomMaster = require('./../room/master').roomMaster;
 
@@ -53,7 +53,7 @@ class Server {
         return new Promise((resolve: () => void, reject: () => void) => {
             const server = this;
             const httpServer = server.getHttpServer();
-            // const socketIoServer = server.getSocketIoServer();
+            const socketIoServer = server.getSocketIoServer();
             const options = server.getOptions();
 
             // server.getExpressApp().use(express.static(server.getOptions().static));
@@ -61,6 +61,7 @@ class Server {
             apiRouter.bindRoutes(server);
 
             httpServer.listen(options.port, () => {
+                socketIoServer.bindEventListener();
                 console.log('TBW listening on local:' + options.port);
                 resolve();
             });

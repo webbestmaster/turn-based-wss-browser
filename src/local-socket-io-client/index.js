@@ -3,6 +3,8 @@
 /* global setTimeout */
 
 /* eslint consistent-this: ["error", "localSocketIoClient"] */
+// const {localMaster} = require('./../local-master');
+// const {LocalSocketIoServer} = require('./../local-socket-io-server');
 
 type EventNameType = 'message' | 'connect' | 'disconnect';
 
@@ -35,6 +37,10 @@ class LocalSocketIoClient {
 
         localSocketIoClient.attr.url = url;
         localSocketIoClient.attr.options = options;
+
+        // localMaster.attr.socketIoServerList.forEach((socketServer: LocalSocketIoServer) => {
+        //
+        // });
 
         setTimeout((): void => localSocketIoClient.trigger('connect', null), 0);
     }

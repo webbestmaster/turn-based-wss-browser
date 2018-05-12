@@ -7,6 +7,8 @@
 const {LocalHttpServer} = require('./../local-http-server');
 const {LocalSocketIoClient} = require('./../local-socket-io-client');
 
+const {localMaster} = require('./../local-master');
+
 /*
 return socketIoServer.sockets.connected[socketId] || null;
 */
@@ -45,22 +47,36 @@ class LocalSocketIoServer {
         };
     }
 
+    bindEventListener() {
+        const localSocketIoServer = this;
+
+        localMaster.addSocketIoServer(localSocketIoServer);
+    }
+
+    unbindEventListener() {
+        const localSocketIoServer = this;
+
+        localMaster.removeSocketIoServer(localSocketIoServer);
+    }
+
     connectSocket(socket: LocalSocketIoClient) {
         const localSocketIoServer = this;
         const {sockets} = localSocketIoServer;
     }
 
+    to(socketId: string): LocalSocketIoClient {
+        console.error('implement!!!!, get LocalSocketIoClient with socketId', socketId);
+        return new LocalSocketIoClient();
+    }
+
     close(callback?: () => void) {
         const localSocketIoServer = this;
+
+        localSocketIoServer.unbindEventListener();
 
         if (typeof callback === 'function') {
             setTimeout(callback, 0);
         }
-    }
-
-    to(socketId: string): LocalSocketIoClient {
-        console.error('implement!!!!, get LocalSocketIoClient with socketId', socketId);
-        return new LocalSocketIoClient();
     }
 }
 

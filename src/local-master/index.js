@@ -3,6 +3,7 @@
 /* eslint consistent-this: ["error", "localMaster"] */
 
 const {LocalHttpServer} = require('./../local-http-server');
+const {LocalSocketIoServer} = require('./../local-socket-io-server');
 const {getPort} = require('./../helper');
 
 import type {PushedStateType} from './../room/index';
@@ -10,7 +11,8 @@ import type {PushedStateType} from './../room/index';
 import type {RequestCallBackType} from './../local-request';
 
 type AttrType = {|
-    +httpServerList: Array<LocalHttpServer>
+    +httpServerList: Array<LocalHttpServer>,
+    +socketIoServerList: Array<LocalSocketIoServer>
 |};
 
 class LocalMaster {
@@ -20,7 +22,8 @@ class LocalMaster {
         const localMaster = this;
 
         localMaster.attr = {
-            httpServerList: []
+            httpServerList: [],
+            socketIoServerList: []
         };
     }
 
@@ -48,6 +51,32 @@ class LocalMaster {
         }
 
         httpServerList.splice(indexOfLocalHttpServer, 1);
+    }
+
+    addSocketIoServer(localSocketIoServer: LocalSocketIoServer) {
+        const localMaster = this;
+        const {socketIoServerList} = localMaster.attr;
+        const indexOfLocalSocketIoServer = socketIoServerList.indexOf(localSocketIoServer);
+
+        if (indexOfLocalSocketIoServer !== -1) {
+            console.log('socketIoServerList already has localSocketIoServer', localMaster, localSocketIoServer);
+            return;
+        }
+
+        socketIoServerList.push(localSocketIoServer);
+    }
+
+    removeSocketIoServer(localSocketIoServer: LocalSocketIoServer) {
+        const localMaster = this;
+        const {socketIoServerList} = localMaster.attr;
+        const indexOfLocalSocketIoServer = socketIoServerList.indexOf(localSocketIoServer);
+
+        if (indexOfLocalSocketIoServer === -1) {
+            console.log('socketIoServerList has NO localSocketIoServer', localMaster, localSocketIoServer);
+            return;
+        }
+
+        socketIoServerList.splice(indexOfLocalSocketIoServer, 1);
     }
 
     triggerHttp(requestType: 'get' | 'post', url: string, form: PushedStateType, requestCallBack: RequestCallBackType) {
