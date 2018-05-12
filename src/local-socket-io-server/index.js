@@ -88,8 +88,11 @@ class LocalSocketIoServer {
 
         localSocketIoServer.unbindEventListener();
 
-        Object.keys(sockets.connected).forEach(key => {
-            sockets.connected[key].disconnect();
+        Object.keys(sockets.connected).forEach((key: string) => {
+            const socket = sockets.connected[key];
+
+            socket.disconnect();
+            localSocketIoServer.disconnectSocket(socket);
         });
 
         if (typeof callback === 'function') {

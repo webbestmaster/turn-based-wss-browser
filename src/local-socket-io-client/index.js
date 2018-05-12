@@ -56,10 +56,10 @@ class LocalSocketIoClient {
         // localSocketIoClient.attr.url = url;
         // localSocketIoClient.attr.options = options;
 
-        localMaster.attr.socketIoServerList.forEach((socketIoServer: LocalSocketIoServer) => {
-            localSocketIoClient.removeAllListeners();
-            socketIoServer.disconnectSocket(localSocketIoClient);
-        });
+        // localMaster.attr.socketIoServerList.forEach((socketIoServer: LocalSocketIoServer) => {
+        //     localSocketIoClient.removeAllListeners();
+        //     socketIoServer.disconnectSocket(localSocketIoClient);
+        // });
 
         setTimeout((): void => localSocketIoClient.trigger('disconnect', null), 0);
     }

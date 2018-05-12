@@ -11,8 +11,7 @@
     "lint-fix": "eslint . --fix",
     "flow": "flow",
     "flow:build": "flow-remove-types ./src/ -d ./module/ --all --pretty",
-    "test-all": "mocha ./test/**/*.test.js",
-    "test": "mocha ./test/**/push-n-get-state.test.js",
+    "test": "mocha ./test/**/*.test.js",
     "test-cover": "istanbul cover --root ./ _mocha ./test/**/*.test.js",
     "dev-nix": "watch --wait=1 'flow-remove-types ./src/ -d ./module/ --all --pretty'"
   },
@@ -41,7 +40,6 @@
     "flow-remove-types": "^1.2.3",
     "flow-typed": "^2.4.0",
     "istanbul": "^0.4.5",
-    "mocha": "^5.1.1",
-    "sinon": "^5.0.7"
+    "mocha": "^5.1.1"
   }
 }
