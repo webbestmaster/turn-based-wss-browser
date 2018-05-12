@@ -270,7 +270,7 @@ class Room {
         return states.slice(statesLength - count, statesLength);
     }
 
-    getId() {
+    getId(): string {
         return this.getAttr().id;
     }
 

@@ -47,21 +47,21 @@ class RoomMaster {
         const roomMaster = this;
         const rooms = roomMaster.getRooms();
 
-        return find(rooms, room => room.getId() === roomId) || null;
+        return find(rooms, (room: Room): boolean => room.getId() === roomId) || null;
     }
 
-    getRoomIds() {
+    getRoomIds(): Array<string> {
         const roomMaster = this;
         const rooms = roomMaster.getRooms();
 
-        return rooms.map(room => room.getId());
+        return rooms.map((room: Room): string => room.getId());
     }
 
-    getRooms() {
+    getRooms(): Array<Room> {
         return this.getAttr().rooms;
     }
 
-    getAttr() {
+    getAttr(): AttrType {
         return this._attr; // eslint-disable-line no-underscore-dangle, id-match
     }
 

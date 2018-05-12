@@ -5,6 +5,25 @@
 const messageConst = require('../message-data.js');
 const roomConfig = require('../config-data.js');
 const Stopwatch = require('timer-stopwatch');
+const {Server} = require('./../../server/index');
+const {Room} = require('./../index');
+const {LocalSocketIoClient} = require('./../../local-socket-io-client');
+
+type RoomConnectionConstructorOptionType = {|
+    +userId: string,
+    +socketId: string,
+    +room: Room
+|};
+
+type AttrType = {|
+    userId: string,
+    socketId: string,
+    room: Room,
+    timers: {|
+        onDisconnect: Stopwatch | null
+    |}
+|};
+
 
 /**
  *
@@ -15,7 +34,9 @@ const Stopwatch = require('timer-stopwatch');
  *      @param {Object} options.room - parent room
  */
 class RoomConnection {
-    constructor(options) {
+    _attr: AttrType; // eslint-disable-line no-underscore-dangle, id-match
+
+    constructor(options: RoomConnectionConstructorOptionType) {
         const roomConnection = this;
 
         roomConnection._attr = { // eslint-disable-line no-underscore-dangle, id-match
@@ -38,7 +59,9 @@ class RoomConnection {
             return;
         }
 
-        socket.on('disconnect', () => roomConnection.onDisconnect());
+        socket.on('disconnect', () => {
+            roomConnection.onDisconnect();
+        });
     }
 
     unBindEventListeners() {
@@ -86,23 +109,23 @@ class RoomConnection {
         roomConnection.unBindEventListeners();
     }
 
-    getUserId() {
+    getUserId(): string {
         const roomConnection = this;
 
         return roomConnection.getAttr().userId;
     }
 
-    setSocketId(socketId) {
+    setSocketId(socketId: string) {
         const roomConnection = this;
 
         roomConnection.getAttr().socketId = socketId;
     }
 
-    getSocketId() {
+    getSocketId(): string {
         return this.getAttr().socketId;
     }
 
-    getSocket() {
+    getSocket(): LocalSocketIoClient | null {
         const roomConnection = this;
         const socketId = roomConnection.getSocketId();
         const server = roomConnection.getServer();
@@ -111,19 +134,19 @@ class RoomConnection {
         return socketIoServer.sockets.connected[socketId] || null;
     }
 
-    getTimers() {
+    getTimers(): {| onDisconnect: Stopwatch | null |} {
         return this.getAttr().timers;
     }
 
-    getServer() {
+    getServer(): Server {
         return this.getRoom().getServer();
     }
 
-    getRoom() {
+    getRoom(): Room {
         return this.getAttr().room;
     }
 
-    getAttr() {
+    getAttr(): AttrType {
         return this._attr; // eslint-disable-line no-underscore-dangle
     }
 }

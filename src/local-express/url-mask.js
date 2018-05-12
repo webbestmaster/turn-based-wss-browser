@@ -73,10 +73,10 @@ class UrlMask {
             return params;
         }
 
+
         const {mask} = urlMask.attr;
         const urlObject = new URL(url);
         const urlPartList = urlObject.pathname.split('/').filter((part: string): boolean => Boolean(part));
-
 
         urlPartList.forEach((urlPart: string, partIndex: number) => {
             const maskPart = mask[partIndex];

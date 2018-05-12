@@ -4,7 +4,7 @@
 
 /* eslint consistent-this: ["error", "localSocketIoClient"] */
 
-type EventNameType = 'message' | 'connect';
+type EventNameType = 'message' | 'connect' | 'disconnect';
 
 type ListenerType = {|
     +eventName: EventNameType,
@@ -56,6 +56,13 @@ class LocalSocketIoClient {
                     listener.callBack(data);
                 }
             });
+    }
+
+    removeAllListeners() {
+        const localSocketIoClient = this;
+        const {listenerList} = localSocketIoClient.attr;
+
+        listenerList.splice(0, listenerList.length);
     }
 }
 
