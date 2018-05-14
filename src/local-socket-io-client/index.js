@@ -1,6 +1,6 @@
 // @flow
 
-/* global setTimeout */
+/* global setTimeout, URL */
 
 /* eslint consistent-this: ["error", "localSocketIoClient"] */
 const {localMaster} = require('./../local-master');
@@ -42,9 +42,11 @@ class LocalSocketIoClient {
         localSocketIoClient.attr.options = options;
 
         localMaster.attr.socketIoServerList.forEach((socketIoServer: LocalSocketIoServer) => {
-            console.log('connect to needed server');
-            // console.log(socketIoServer, localSocketIoClient);
-            socketIoServer.connectSocket(localSocketIoClient);
+            const urlObject = new URL(url);
+
+            if (parseInt(urlObject.port, 10) === parseInt(socketIoServer.attr.localHttpServer.attr.port, 10)) {
+                socketIoServer.connectSocket(localSocketIoClient);
+            }
         });
 
         setTimeout((): void => localSocketIoClient.trigger('connect', null), 0);
@@ -91,17 +93,9 @@ class LocalSocketIoClient {
     }
 
     emit(eventName: 'message', data: mixed) {
-        this.trigger('message', data);
+        const localSocketIoClient = this;
 
-        // console.error('implement!!!!, get emit for current client ', data);
-        // console.error('implement!!!!, get emit for current client ', data);
-        // console.error('implement!!!!, get emit for current client ', data);
-        // console.error('implement!!!!, get emit for current client ', data);
-        // console.error('implement!!!!, get emit for current client ', data);
-        // console.error('implement!!!!, get emit for current client ', data);
-        // console.error('implement!!!!, get emit for current client ', data);
-        // console.error('implement!!!!, get emit for current client ', data);
-        // console.error('implement!!!!, get emit for current client ', data);
+        localSocketIoClient.trigger('message', data);
     }
 }
 
