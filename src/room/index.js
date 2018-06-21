@@ -131,7 +131,7 @@ export type PushedStateType = {|
     userId?: string,
     +socketId?: string,
     meta?: MetaType
-|};
+|} | null;
 
 
 const {roomMaster} = require('./master');
@@ -329,7 +329,7 @@ class Room {
         const states = room.getStates();
 
         // check room is destroyed
-        if (states === null) {
+        if (states === null || state === null) {
             return state;
         }
 
@@ -406,12 +406,12 @@ class Room {
         const states = room.getStates();
 
         return find(states, (state: PushedStateType): boolean => {
-            if (!state.meta) {
-                return false;
-            }
+                if (state === null || !state.meta) {
+                    return false;
+                }
 
-            return typeof state.meta.hash === 'string' && state.meta.hash === hash;
-        }) ||
+                return typeof state.meta.hash === 'string' && state.meta.hash === hash;
+            }) ||
             null;
     }
 
@@ -456,7 +456,13 @@ class Room {
     }
 
     getSetting(key: string): mixed {
-        return this.getAttr().settings[key];
+        const {settings} = this.getAttr();
+
+        if (settings === null) {
+            return null;
+        }
+
+        return settings[key];
     }
 
     setSettings(settings: SettingsType): Room {
