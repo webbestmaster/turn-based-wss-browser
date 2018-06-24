@@ -3,14 +3,8 @@
 const roomMaster = require('./../../../room/master').roomMaster;
 const {LocalExpressRequest} = require('./../../../local-express/request');
 const {LocalExpressResponse} = require('./../../../local-express/response');
-const {RoomConnection} = require('./../../../room/room-connection/index');
 const error = require('../error-data.js');
-
-type ServerUserType = {|
-    userId: string,
-    socketId: string,
-    type: 'human' | 'bot'
-|};
+const messageConst = require('../../../room/message-data.js');
 
 module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
     const {params} = req;
@@ -28,12 +22,12 @@ module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
         return;
     }
 
+    const bot = room.makeBot();
+
     res.json({
+        type: messageConst.type.joinIntoRoom,
         roomId,
-        users: room.getConnections().map((connection: RoomConnection): ServerUserType => ({
-            userId: connection.getUserId(),
-            socketId: connection.getSocketId(),
-            type: connection.getType()
-        }))
+        userId: bot.userId,
+        socketId: bot.socketId
     });
 };

@@ -267,6 +267,7 @@ class Room {
         }
 
         const newRoomConnection = new RoomConnection({
+            type: 'human',
             userId: roomConnectionOptions.userId,
             socketId: roomConnectionOptions.socketId,
             room
@@ -282,6 +283,33 @@ class Room {
             userId: roomConnectionOptions.userId,
             socketId: roomConnectionOptions.socketId
         });
+    }
+
+    makeBot(): {| userId: string, socketId: string |} {
+        const room = this;
+        const connections = room.getConnections();
+        const userId = 'bot-user-id-' + String(Math.random()).slice(2);
+        const socketId = 'bot-socket-id-' + String(Math.random()).slice(2);
+
+        const newRoomConnection = new RoomConnection({
+            type: 'bot',
+            userId,
+            socketId,
+            room
+        });
+
+        newRoomConnection.bindEventListeners();
+
+        connections.push(newRoomConnection);
+
+        room.pushStateForce({
+            type: messageConst.type.joinIntoRoom,
+            roomId: room.getId(),
+            userId,
+            socketId
+        });
+
+        return {userId, socketId};
     }
 
     leave(userId: string) {
@@ -308,7 +336,10 @@ class Room {
 
         existRoomConnection.destroy();
 
-        if (connections.length === 0) {
+        const humanConnectionList = connections
+            .filter((connection: RoomConnection): boolean => connection.getType() !== 'bot');
+
+        if (humanConnectionList.length === 0) {
             room.destroy();
         }
     }
@@ -366,9 +397,14 @@ class Room {
         const socketIoServer = server.getSocketIoServer();
 
         connections.forEach((connection: RoomConnection) => {
-            const socketClient = socketIoServer.to(connection.getAttr().socketId);
+            const connectionAttr = connection.getAttr();
+            const socketClient = socketIoServer.to(connectionAttr.socketId);
 
             if (socketClient === null) {
+                return;
+            }
+
+            if (connectionAttr.type === 'bot') {
                 return;
             }
 
@@ -406,12 +442,12 @@ class Room {
         const states = room.getStates();
 
         return find(states, (state: PushedStateType): boolean => {
-                if (state === null || !state.meta) {
-                    return false;
-                }
+            if (state === null || !state.meta) {
+                return false;
+            }
 
-                return typeof state.meta.hash === 'string' && state.meta.hash === hash;
-            }) ||
+            return typeof state.meta.hash === 'string' && state.meta.hash === hash;
+        }) ||
             null;
     }
 

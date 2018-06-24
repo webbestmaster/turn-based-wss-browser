@@ -25,7 +25,7 @@ describe('GET /api/room/leave/:roomId/:userId', () => {
 
     afterEach(() => server.destroy());
 
-    it('leave', async () => { // eslint-disable-line max-statements
+    it('bot leave', async () => { // eslint-disable-line max-statements
         const userA = await util.createUser();
         const userB = await util.createUser();
 
@@ -38,6 +38,8 @@ describe('GET /api/room/leave/:roomId/:userId', () => {
         // join to room as userB
         await util.getAsJson(url + path.join('/api/room/join/', roomId, userB.userId, userB.socket.id));
 
+        const bot = await util.getAsJson(url + path.join('/api/room/make-bot/', roomId));
+
         // leave from room as userA
         const leaveUserAResult = await util.getAsJson(url + path.join('/api/room/leave/', roomId, userA.userId));
 
@@ -45,12 +47,16 @@ describe('GET /api/room/leave/:roomId/:userId', () => {
         assert(leaveUserAResult.roomId === roomId);
         assert(leaveUserAResult.userId === userA.userId);
         assert.jsonSchema(leaveUserAResult, leaveFromRoomSchema);
-        assert.jsonSchema(userB.messages[1], leaveFromRoomMessageSchema);
+        assert.jsonSchema(userB.messages[2], leaveFromRoomMessageSchema);
 
         let getUsersResult = await util
             .getAsJson(url + path.join('/api/room/get-users/', roomId));
 
-        assert.deepEqual(getUsersResult.users, [{userId: userB.userId, socketId: userB.socket.id, type: 'human'}]);
+        assert.deepEqual(getUsersResult.users, [
+            {userId: userB.userId, socketId: userB.socket.id, type: 'human'},
+            {userId: bot.userId, socketId: bot.socketId, type: 'bot'}
+        ]);
+
 
         // leave from room as userB
         const leaveUserBResult = await util.getAsJson(url + path.join('/api/room/leave/', roomId, userB.userId));
@@ -59,8 +65,8 @@ describe('GET /api/room/leave/:roomId/:userId', () => {
         assert(leaveUserBResult.roomId === roomId);
         assert(leaveUserBResult.userId === userB.userId);
         assert.jsonSchema(leaveUserBResult, leaveFromRoomSchema);
-        assert.jsonSchema(userB.messages[1], leaveFromRoomMessageSchema);
-        assert(userB.messages.length === 2);
+        assert.jsonSchema(userB.messages[2], leaveFromRoomMessageSchema);
+        assert(userB.messages.length === 3);
 
         // right now room is not exists
         getUsersResult = await util
@@ -75,8 +81,8 @@ describe('GET /api/room/leave/:roomId/:userId', () => {
         assert(leaveUserBResultAgain.error.id === error.ROOM_NOT_FOUND.id);
         assert(leaveUserBResultAgain.error.message === error.ROOM_NOT_FOUND.message.replace('{{roomId}}', roomId));
 
-        assert(userA.messages.length === 2); // messages - userA join, userB join
-        assert(userB.messages.length === 2); // messages - userB join, userA leave
+        assert(userA.messages.length === 3); // messages - userA join, userB join
+        assert(userB.messages.length === 3); // messages - userB join, userA leave
 
         getUsersResult = await util
             .getAsJson(url + path.join('/api/room/get-users/', roomId));

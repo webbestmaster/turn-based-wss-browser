@@ -12,13 +12,15 @@ const {LocalSocketIoClient} = require('./../../local-socket-io-client');
 type RoomConnectionConstructorOptionType = {|
     +userId: string,
     +socketId: string,
-    +room: Room
+    +room: Room,
+    +type: 'human' | 'bot'
 |};
 
 type AttrType = {|
     userId: string,
     socketId: string,
     room: Room,
+    type: 'human' | 'bot',
     timers: {|
         onDisconnect: Stopwatch | null
     |}
@@ -29,6 +31,7 @@ type AttrType = {|
  *
  * @constructor
  * @param {Object} options - options for new room's connection
+ *      @param {String} options.type - bot | human
  *      @param {String} options.socketId - socket's id
  *      @param {String} options.userId - user's id
  *      @param {Object} options.room - parent room
@@ -43,6 +46,7 @@ class RoomConnection {
             socketId: options.socketId,
             userId: options.userId,
             room: options.room,
+            type: options.type, // 'bot' | 'human'
             timers: {
                 onDisconnect: null
             }
@@ -53,6 +57,10 @@ class RoomConnection {
         const roomConnection = this;
         const socketId = roomConnection.getSocketId();
         const socket = roomConnection.getSocket();
+
+        if (roomConnection.getType() === 'bot') {
+            return;
+        }
 
         if (socket === null) {
             console.error('--- ERROR ---> bindEventListeners: Can not find socket with id:', socketId);
@@ -72,6 +80,10 @@ class RoomConnection {
 
         if (timers.onDisconnect !== null) {
             timers.onDisconnect.stop();
+        }
+
+        if (roomConnection.getType() === 'bot') {
+            return;
         }
 
         if (socket === null) {
@@ -148,6 +160,10 @@ class RoomConnection {
 
     getAttr(): AttrType {
         return this._attr; // eslint-disable-line no-underscore-dangle
+    }
+
+    getType(): 'human' | 'bot' {
+        return this.getAttr().type;
     }
 }
 

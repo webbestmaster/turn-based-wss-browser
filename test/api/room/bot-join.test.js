@@ -25,9 +25,8 @@ describe('GET /api/room/join/:roomId/:userId/:socketId', () => {
 
     afterEach(() => server.destroy());
 
-    it('join', async () => { // eslint-disable-line max-statements
+    it('bot join', async () => { // eslint-disable-line max-statements
         const userA = await util.createUser();
-        const userB = await util.createUser();
 
         const createRoomResult = await util.getAsJson(url + '/api/room/create');
         const {roomId} = createRoomResult;
@@ -49,28 +48,13 @@ describe('GET /api/room/join/:roomId/:userId/:socketId', () => {
         assert(userA.messages[0].states.last.socketId === userA.socket.id);
         assert(userA.messages[0].states.length === 1);
 
-        // join to room as userB
-        let joinUserBResult = await util
-            .getAsJson(url + path.join('/api/room/join/', roomId, userB.userId, userB.socket.id));
-
-        assert(joinUserBResult.type === messageConst.type.joinIntoRoom);
-        assert(joinUserBResult.roomId === roomId);
-        assert(joinUserBResult.userId === userB.userId);
-        assert(joinUserBResult.socketId === userB.socket.id);
-        assert.jsonSchema(joinUserBResult, joinIntoRoomSchema);
-        assert.jsonSchema(userB.messages[0], joinIntoRoomMessageSchema);
-
-        assert(userB.messages[0].states.last.type === messageConst.type.joinIntoRoom);
-        assert(userB.messages[0].states.last.roomId === roomId);
-        assert(userB.messages[0].states.last.userId === userB.userId);
-        assert(userB.messages[0].states.last.socketId === userB.socket.id);
-        assert(userB.messages[0].states.length === 2);
+        const bot = await util.getAsJson(url + '/api/room/make-bot/' + roomId);
 
         // user a should be got second message
         assert(userA.messages[1].states.last.type === messageConst.type.joinIntoRoom);
         assert(userA.messages[1].states.last.roomId === roomId);
-        assert(userA.messages[1].states.last.userId === userB.userId);
-        assert(userA.messages[1].states.last.socketId === userB.socket.id);
+        assert(userA.messages[1].states.last.userId === bot.userId);
+        assert(userA.messages[1].states.last.socketId === bot.socketId);
         assert(userA.messages[1].states.length === 2);
 
         // check users exists - should be 2 users
@@ -79,7 +63,7 @@ describe('GET /api/room/join/:roomId/:userId/:socketId', () => {
 
         assert.deepEqual(getUsersResult.users, [
             {userId: userA.userId, socketId: userA.socket.id, type: 'human'},
-            {userId: userB.userId, socketId: userB.socket.id, type: 'human'}
+            {userId: bot.userId, socketId: bot.socketId, type: 'bot'}
         ]);
 
         // try to rejoin
@@ -94,20 +78,9 @@ describe('GET /api/room/join/:roomId/:userId/:socketId', () => {
 
         // no new socket messages
         assert(userA.messages.length === 2);
-        assert(userB.messages.length === 1);
-
-        // join to room as userB
-        joinUserBResult = await util
-            .getAsJson(url + path.join('/api/room/join/', roomId, userB.userId, userB.socket.id));
-
-        assert(joinUserBResult.type === messageConst.type.joinIntoRoom);
-        assert(joinUserBResult.roomId === roomId);
-        assert(joinUserBResult.userId === userB.userId);
-        assert(joinUserBResult.socketId === userB.socket.id);
 
         // no new socket messages
         assert(userA.messages.length === 2);
-        assert(userB.messages.length === 1);
 
         // check users exists - should be 2 users
         getUsersResult = await util
@@ -115,26 +88,9 @@ describe('GET /api/room/join/:roomId/:userId/:socketId', () => {
 
         assert.deepEqual(getUsersResult.users, [
             {userId: userA.userId, socketId: userA.socket.id, type: 'human'},
-            {userId: userB.userId, socketId: userB.socket.id, type: 'human'}
+            {userId: bot.userId, socketId: bot.socketId, type: 'bot'}
         ]);
 
         userA.socket.disconnect();
-        userB.socket.disconnect();
-    });
-
-    it('join to not exists room', async () => {
-        const user = await util.createUser();
-        const notExistsRoomId = String(Math.random());
-
-        await util.getAsJson(url + '/api/room/create');
-
-        // join to not exists room
-        const joinUserResult = await util
-            .getAsJson(url + path.join('/api/room/join/', notExistsRoomId, user.userId, user.socket.id));
-
-        assert(joinUserResult.error.id === error.ROOM_NOT_FOUND.id);
-        assert(joinUserResult.error.message === error.ROOM_NOT_FOUND.message.replace('{{roomId}}', notExistsRoomId));
-
-        user.socket.disconnect();
     });
 });
