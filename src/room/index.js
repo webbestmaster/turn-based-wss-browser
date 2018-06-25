@@ -288,8 +288,8 @@ class Room {
     makeUser(type: 'human' | 'bot'): {| userId: string, socketId: string |} {
         const room = this;
         const connections = room.getConnections();
-        const userId = 'bot-user-id-' + String(Math.random()).slice(2);
-        const socketId = 'bot-socket-id-' + String(Math.random()).slice(2);
+        const userId = type + '-user-id-' + String(Math.random()).slice(2);
+        const socketId = type + '-socket-id-' + String(Math.random()).slice(2);
 
         const newRoomConnection = new RoomConnection({type, userId, socketId, room});
 
