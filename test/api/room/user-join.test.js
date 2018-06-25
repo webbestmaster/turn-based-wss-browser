@@ -48,7 +48,7 @@ describe('GET /api/room/join/:roomId/:userId/:socketId', () => {
         assert(userA.messages[0].states.last.socketId === userA.socket.id);
         assert(userA.messages[0].states.length === 1);
 
-        const bot = await util.getAsJson(url + '/api/room/make-bot/' + roomId);
+        const bot = await util.getAsJson(url + '/api/room/make/bot/' + roomId);
 
         // user a should be got second message
         assert(userA.messages[1].states.last.type === messageConst.type.joinIntoRoom);

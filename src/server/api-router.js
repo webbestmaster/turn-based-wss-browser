@@ -7,7 +7,7 @@ const apiRoomCreate = require('./api/room/create');
 const apiRoomGetIds = require('./api/room/get-ids');
 
 const apiRoomJoin = require('./api/room/join');
-const apiRoomMakeBot = require('./api/room/make-bot');
+const apiRoomMakeUser = require('./api/room/make-user');
 const apiRoomLeave = require('./api/room/leave');
 
 const apiRoomDropTurn = require('./api/room/drop-turn');
@@ -57,9 +57,9 @@ module.exports.apiRouter = {
         expressApp.get('/api/room/join/:roomId/:userId/:socketId', apiRoomJoin);
 
         /**
-         * make bot
+         * make human or bot
          */
-        expressApp.get('/api/room/make-bot/:roomId', apiRoomMakeBot);
+        expressApp.get('/api/room/make/:type/:roomId', apiRoomMakeUser);
 
         /**
          * leave to room

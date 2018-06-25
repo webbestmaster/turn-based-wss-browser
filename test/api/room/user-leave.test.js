@@ -38,7 +38,7 @@ describe('GET /api/room/leave/:roomId/:userId', () => {
         // join to room as userB
         await util.getAsJson(url + path.join('/api/room/join/', roomId, userB.userId, userB.socket.id));
 
-        const bot = await util.getAsJson(url + path.join('/api/room/make-bot/', roomId));
+        const bot = await util.getAsJson(url + path.join('/api/room/make/bot/', roomId));
 
         // leave from room as userA
         const leaveUserAResult = await util.getAsJson(url + path.join('/api/room/leave/', roomId, userA.userId));

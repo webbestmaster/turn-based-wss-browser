@@ -8,7 +8,7 @@ const messageConst = require('../../../room/message-data.js');
 
 module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
     const {params} = req;
-    const {roomId} = params;
+    const {type, roomId} = params;
 
     const room = roomMaster.getRoomById(roomId);
 
@@ -22,12 +22,23 @@ module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
         return;
     }
 
-    const bot = room.makeBot();
+    if (type === 'bot' || type === 'human') {
+        const user = room.makeUser(type);
+
+        res.json({
+            type: messageConst.type.joinIntoRoom,
+            roomId,
+            userId: user.userId,
+            socketId: user.socketId
+        });
+
+        return;
+    }
 
     res.json({
-        type: messageConst.type.joinIntoRoom,
-        roomId,
-        userId: bot.userId,
-        socketId: bot.socketId
+        error: {
+            id: error.WRONG_PARAMETERS.id,
+            message: error.WRONG_PARAMETERS.message.replace('{{params}}', JSON.stringify(params))
+        }
     });
 };
