@@ -94,8 +94,10 @@ class Server {
                 new Promise((resolve: () => void, reject: () => void): void => socketIoServer.close(resolve)),
                 new Promise((resolve: () => void, reject: () => void): void => httpServer.close(resolve))
             ])
-            .then(() => {
-                console.log('TBW top listen on local:' + options.port);
+            .then((): void => console.log('TBW stop listen on local:', options.port))
+            .catch((error: Error) => {
+                console.error('error with TBW stop listen on local:', options.port);
+                console.error(error);
             });
     }
 
