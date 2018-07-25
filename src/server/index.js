@@ -9,16 +9,7 @@ const {LocalSocketIoServer} = require('./../local-socket-io-server');
 const {LocalHttpServer} = require('./../local-http-server');
 const apiRouter = require('./api-router').apiRouter;
 const roomMaster = require('./../room/master').roomMaster;
-const {
-    isBoolean,
-    isNumber,
-    isString,
-    isFunction,
-    isNotBoolean,
-    isNotNumber,
-    isNotString,
-    isNotFunction
-} = require('./../helper');
+const {isNumber} = require('./../helper');
 
 type ServerConstructorOptionsType = {|
     port: number

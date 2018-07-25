@@ -9,16 +9,7 @@ const {LocalSocketIoClient} = require('./../local-socket-io-client');
 
 const {localMaster} = require('./../local-master');
 
-const {
-    isBoolean,
-    isNumber,
-    isString,
-    isFunction,
-    isNotBoolean,
-    isNotNumber,
-    isNotString,
-    isNotFunction
-} = require('./../helper');
+const {isFunction} = require('./../helper');
 
 /*
 return socketIoServer.sockets.connected[socketId] || null;

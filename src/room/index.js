@@ -1,16 +1,7 @@
 // @flow
 
 /* eslint consistent-this: ["error", "room"] */
-const {
-    isBoolean,
-    isNumber,
-    isString,
-    isFunction,
-    isNotBoolean,
-    isNotNumber,
-    isNotString,
-    isNotFunction
-} = require('./../helper');
+const {isString, isFunction} = require('./../helper');
 
 type PushedStatePayloadIsGameStartedType = {|
     +isGameStart: boolean,
