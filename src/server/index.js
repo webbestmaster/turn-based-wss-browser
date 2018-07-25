@@ -32,7 +32,8 @@ type AttrType = {|
  *      @param {number} options.port - port to lister
  */
 class Server {
-    _attr: AttrType; // eslint-disable-line no-underscore-dangle, id-match
+    // eslint-disable-next-line no-underscore-dangle, id-match
+    _attr: AttrType;
     constructor(options: ServerConstructorOptionsType) {
         const server = this;
 
@@ -40,7 +41,8 @@ class Server {
         const httpServer = new LocalHttpServer(expressApp);
         const socketIoServer = new LocalSocketIoServer(httpServer);
 
-        server._attr = { // eslint-disable-line no-underscore-dangle, id-match
+        // eslint-disable-next-line no-underscore-dangle, id-match
+        server._attr = {
             options: {
                 port: isNumber(options.port) ? options.port : serverDefaultOptions.port
             },
@@ -86,15 +88,12 @@ class Server {
         const socketIoServer = server.getSocketIoServer();
         const options = server.getOptions();
 
-        // const expressApp = server.getExpressApp();
-
         roomMaster.destroy();
 
-        return Promise
-            .all([
-                new Promise((resolve: () => void, reject: () => void): void => socketIoServer.close(resolve)),
-                new Promise((resolve: () => void, reject: () => void): void => httpServer.close(resolve))
-            ])
+        return Promise.all([
+            new Promise((resolve: () => void, reject: () => void): void => socketIoServer.close(resolve)),
+            new Promise((resolve: () => void, reject: () => void): void => httpServer.close(resolve))
+        ])
             .then((): void => console.log('TBW stop listen on local:', options.port))
             .catch((error: Error) => {
                 console.error('error with TBW stop listen on local:', options.port);
@@ -103,7 +102,8 @@ class Server {
     }
 
     getAttr(): AttrType {
-        return this._attr; // eslint-disable-line no-underscore-dangle
+        // eslint-disable-next-line no-underscore-dangle
+        return this._attr;
     }
 
     getExpressApp(): LocalExpress {

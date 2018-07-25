@@ -66,7 +66,8 @@ class LocalSocketIoClient {
         setTimeout((): void => localSocketIoClient.trigger('disconnect', null), 0);
     }
 
-    on(eventName: EventNameType, callBack: (message?: mixed) => void) { // eslint-disable-line id-length
+    // eslint-disable-next-line id-length
+    on(eventName: EventNameType, callBack: (message?: mixed) => void) {
         const localSocketIoClient = this;
         const {listenerList} = localSocketIoClient.attr;
 
@@ -77,12 +78,11 @@ class LocalSocketIoClient {
         const localSocketIoClient = this;
         const {listenerList} = localSocketIoClient.attr;
 
-        listenerList
-            .forEach((listener: ListenerType) => {
-                if (listener.eventName === eventName) {
-                    listener.callBack(data);
-                }
-            });
+        listenerList.forEach((listener: ListenerType) => {
+            if (listener.eventName === eventName) {
+                listener.callBack(data);
+            }
+        });
     }
 
     removeAllListeners() {

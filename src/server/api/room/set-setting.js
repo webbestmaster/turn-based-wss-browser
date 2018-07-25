@@ -21,7 +21,6 @@ module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
         return;
     }
 
-
     room.setSetting(body);
 
     res.json({

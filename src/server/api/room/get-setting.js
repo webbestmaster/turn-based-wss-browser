@@ -21,7 +21,6 @@ module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
         return;
     }
 
-
     res.json({
         roomId,
         value: room.getSetting(key)

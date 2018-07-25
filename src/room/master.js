@@ -11,11 +11,13 @@ type AttrType = {|
 |};
 
 class RoomMaster {
-    _attr: AttrType; // eslint-disable-line no-underscore-dangle, id-match
+    // eslint-disable-next-line no-underscore-dangle, id-match
+    _attr: AttrType;
     constructor() {
         const roomMaster = this;
 
-        roomMaster._attr = { // eslint-disable-line no-underscore-dangle, id-match
+        // eslint-disable-next-line no-underscore-dangle, id-match
+        roomMaster._attr = {
             rooms: []
         };
     }
@@ -62,7 +64,8 @@ class RoomMaster {
     }
 
     getAttr(): AttrType {
-        return this._attr; // eslint-disable-line no-underscore-dangle, id-match
+        // eslint-disable-next-line no-underscore-dangle, id-match
+        return this._attr;
     }
 
     destroy() {

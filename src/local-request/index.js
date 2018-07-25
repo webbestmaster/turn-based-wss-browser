@@ -9,8 +9,12 @@ import type {PushedStateType} from './../room';
 
 export type RequestCallBackType = (error: Error | null, response: mixed, body: string) => void;
 
-function request(requestType: 'get' | 'post',
-                 url: string, form: PushedStateType, requestCallBack: RequestCallBackType) {
+function request(
+    requestType: 'get' | 'post',
+    url: string,
+    form: PushedStateType,
+    requestCallBack: RequestCallBackType
+) {
     setTimeout((): void => localMaster.triggerHttp(requestType, url, form, requestCallBack), 0);
 }
 

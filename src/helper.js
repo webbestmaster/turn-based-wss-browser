@@ -1,6 +1,7 @@
 // @flow
 
-function getPort(originalUrl: string): number { // eslint-disable-line complexity
+// eslint-disable-next-line complexity
+function getPort(originalUrl: string): number {
     const matches = originalUrl.match(/^(([a-z]+:)?(\/{2})?[^/]+).*$/);
     const url = matches ? matches[1] : originalUrl;
     const parts = url.split(':');
@@ -20,7 +21,6 @@ function getPort(originalUrl: string): number { // eslint-disable-line complexit
 
     return port;
 }
-
 
 function isBoolean(value: mixed): boolean %checks {
     return value === true || value === false;

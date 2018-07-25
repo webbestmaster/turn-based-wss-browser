@@ -26,7 +26,8 @@ const apiGetAllStates = require('./api/room/get-all-states');
 const apiGetStatesFromHash = require('./api/room/get-states-from-hash');
 
 module.exports.apiRouter = {
-    bindRoutes: (server: Server) => { // eslint-disable-line max-statements
+    bindRoutes: (server: Server) => {
+        // eslint-disable-next-line max-statements
         const expressApp = server.getExpressApp();
 
         // fix CORS

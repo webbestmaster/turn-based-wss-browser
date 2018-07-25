@@ -23,15 +23,13 @@ connections.forEach(connection => {
 });
 */
 
-
 type AttrType = {|
     +localHttpServer: LocalHttpServer
 |};
 
 type SocketsType = {|
-    +connected: { [key: string]: LocalSocketIoClient }
+    +connected: {[key: string]: LocalSocketIoClient}
 |};
-
 
 class LocalSocketIoServer {
     attr: AttrType;

@@ -3,7 +3,7 @@
 /* eslint consistent-this: ["error", "localExpressRequest"] */
 import type {PushedStateType} from './../room';
 
-type ParamsType = { +[key: string]: string };
+type ParamsType = {+[key: string]: string};
 type ConstructorOptionsType = {|
     +params: ParamsType,
     +body: PushedStateType

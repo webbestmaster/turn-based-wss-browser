@@ -21,7 +21,6 @@ module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
         return;
     }
 
-
     const states = room.getStates();
 
     res.json({

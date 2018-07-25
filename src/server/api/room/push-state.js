@@ -22,7 +22,6 @@ module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
         return;
     }
 
-
     const lastState = room.pushState(userId, body);
 
     if (lastState === null) {

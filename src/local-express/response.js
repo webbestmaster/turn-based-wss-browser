@@ -23,7 +23,7 @@ class LocalExpressResponse {
         };
     }
 
-    json(data: { [key: string]: mixed }) {
+    json(data: {[key: string]: mixed}) {
         const localExpressResponse = this;
         const {callBack} = localExpressResponse.attr;
 

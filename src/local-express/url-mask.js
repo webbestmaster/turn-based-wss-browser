@@ -13,7 +13,6 @@ type AttrType = {|
     +mask: Array<string>
 |};
 
-
 class UrlMask {
     attr: AttrType;
 
@@ -48,23 +47,25 @@ class UrlMask {
             return false;
         }
 
-        return urlPartList.every((urlPart: string, partIndex: number): boolean => {
-            const maskPart = mask[partIndex];
+        return urlPartList.every(
+            (urlPart: string, partIndex: number): boolean => {
+                const maskPart = mask[partIndex];
 
-            if (!maskPart) {
-                console.error('here is should a maskPart');
-                return false;
+                if (!maskPart) {
+                    console.error('here is should a maskPart');
+                    return false;
+                }
+
+                if (maskPart.startsWith(':')) {
+                    return true;
+                }
+
+                return urlPart === maskPart;
             }
-
-            if (maskPart.startsWith(':')) {
-                return true;
-            }
-
-            return urlPart === maskPart;
-        });
+        );
     }
 
-    getParams(url: string): { +[key: string]: string } {
+    getParams(url: string): {+[key: string]: string} {
         const urlMask = this;
 
         const params = {};
@@ -72,7 +73,6 @@ class UrlMask {
         if (!urlMask.isCover(url)) {
             return params;
         }
-
 
         const {mask} = urlMask.attr;
         const urlObject = new URL(url);

@@ -21,7 +21,6 @@ module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
         return;
     }
 
-
     const lastStates = room.getLastStates(parseInt(count, 10));
 
     res.json({

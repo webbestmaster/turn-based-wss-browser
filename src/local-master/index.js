@@ -83,14 +83,13 @@ class LocalMaster {
         const localMaster = this;
         const {httpServerList} = localMaster.attr;
 
-        httpServerList
-            .forEach((localHttpServer: LocalHttpServer) => {
-                if (localHttpServer.attr.port !== getPort(url)) {
-                    return;
-                }
+        httpServerList.forEach((localHttpServer: LocalHttpServer) => {
+            if (localHttpServer.attr.port !== getPort(url)) {
+                return;
+            }
 
-                localHttpServer.onRequest(requestType, url, form, requestCallBack);
-            });
+            localHttpServer.onRequest(requestType, url, form, requestCallBack);
+        });
     }
 }
 

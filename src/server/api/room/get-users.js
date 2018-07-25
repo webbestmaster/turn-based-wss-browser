@@ -30,10 +30,12 @@ module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
 
     res.json({
         roomId,
-        users: room.getConnections().map((connection: RoomConnection): ServerUserType => ({
-            userId: connection.getUserId(),
-            socketId: connection.getSocketId(),
-            type: connection.getType()
-        }))
+        users: room.getConnections().map(
+            (connection: RoomConnection): ServerUserType => ({
+                userId: connection.getUserId(),
+                socketId: connection.getSocketId(),
+                type: connection.getType()
+            })
+        )
     });
 };

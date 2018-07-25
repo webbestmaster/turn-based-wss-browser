@@ -22,7 +22,6 @@ module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
         return;
     }
 
-
     const activeUserId = room.dropTurn(userId);
 
     res.json({

@@ -109,7 +109,8 @@ export type MetaType = {|
     hash: string
 |};
 
-export type PushedStatePayloadType = PushedStatePayloadIsGameStartedType
+export type PushedStatePayloadType =
+    | PushedStatePayloadIsGameStartedType
     | PushedStatePayloadUnitMoveType
     | PushedStatePayloadUnitAttackType
     | PushedStatePayloadRefreshUnitListType
@@ -120,20 +121,21 @@ export type PushedStatePayloadType = PushedStatePayloadIsGameStartedType
     | PushedStatePayloadBuyUnitType
     | PushedStatePayloadSyncMapWithServerUserListType;
 
-
-export type PushedStateType = {|
-    type: string,
-    +state: PushedStatePayloadType,
-    meta?: MetaType
-|} | {|
-    type: string,
-    +roomId: string,
-    activeUserId?: string,
-    userId?: string,
-    +socketId?: string,
-    meta?: MetaType
-|} | null;
-
+export type PushedStateType =
+    | {|
+          type: string,
+          +state: PushedStatePayloadType,
+          meta?: MetaType
+      |}
+    | {|
+          type: string,
+          +roomId: string,
+          activeUserId?: string,
+          userId?: string,
+          +socketId?: string,
+          meta?: MetaType
+      |}
+    | null;
 
 const {roomMaster} = require('./master');
 const {RoomConnection} = require('./room-connection');
@@ -151,7 +153,7 @@ type RoomConstructorOptionsType = {|
 |};
 
 // export type SettingsType = { [key: string]: mixed };
-export type SettingsType = PushedStateType | { [key: string]: mixed };
+export type SettingsType = PushedStateType | {[key: string]: mixed};
 
 type AttrType = {|
     connections: Array<RoomConnection>,
@@ -168,7 +170,8 @@ type AttrType = {|
 |};
 
 class Room {
-    _attr: AttrType; // eslint-disable-line no-underscore-dangle, id-match
+    // eslint-disable-next-line no-underscore-dangle, id-match
+    _attr: AttrType;
 
     constructor(options: RoomConstructorOptionsType) {
         const room = this;
@@ -176,7 +179,8 @@ class Room {
 
         roomId += 1;
 
-        room._attr = { // eslint-disable-line no-underscore-dangle, id-match
+        // eslint-disable-next-line no-underscore-dangle, id-match
+        room._attr = {
             connections: [],
             id: 'room-id-' + roomId,
             activeUserId: defaultActiveUserId,
@@ -252,13 +256,15 @@ class Room {
         return nextActiveUserId;
     }
 
-    join(roomConnectionOptions: {| +userId: string, +socketId: string |}) {
+    join(roomConnectionOptions: {|+userId: string, +socketId: string|}) {
         const room = this;
         const connections = room.getConnections();
         const userId = roomConnectionOptions.userId;
 
-        const existRoomConnection = find(connections,
-            (connection: RoomConnection): boolean => connection.getUserId() === userId);
+        const existRoomConnection = find(
+            connections,
+            (connection: RoomConnection): boolean => connection.getUserId() === userId
+        );
 
         if (existRoomConnection) {
             existRoomConnection.unBindEventListeners();
@@ -286,7 +292,7 @@ class Room {
         });
     }
 
-    makeUser(type: 'human' | 'bot'): {| userId: string, socketId: string |} {
+    makeUser(type: 'human' | 'bot'): {|userId: string, socketId: string|} {
         const room = this;
         const connections = room.getConnections();
         const userId = type + '-user-id-' + String(Math.random()).slice(2);
@@ -312,8 +318,10 @@ class Room {
         const room = this;
         const connections = room.getConnections();
 
-        const existRoomConnection = find(connections,
-            (connection: RoomConnection): boolean => connection.getUserId() === userId);
+        const existRoomConnection = find(
+            connections,
+            (connection: RoomConnection): boolean => connection.getUserId() === userId
+        );
 
         if (!existRoomConnection) {
             console.log('user with id', userId, 'is not exists in room');
@@ -332,8 +340,9 @@ class Room {
 
         existRoomConnection.destroy();
 
-        const humanConnectionList = connections
-            .filter((connection: RoomConnection): boolean => connection.getType() !== 'bot');
+        const humanConnectionList = connections.filter(
+            (connection: RoomConnection): boolean => connection.getType() !== 'bot'
+        );
 
         if (humanConnectionList.length === 0) {
             room.destroy();
@@ -437,14 +446,18 @@ class Room {
         const room = this;
         const states = room.getStates();
 
-        return find(states, (state: PushedStateType): boolean => {
-            if (state === null || !state.meta) {
-                return false;
-            }
+        return (
+            find(
+                states,
+                (state: PushedStateType): boolean => {
+                    if (state === null || !state.meta) {
+                        return false;
+                    }
 
-            return isString(state.meta.hash) && state.meta.hash === hash;
-        }) ||
-            null;
+                    return isString(state.meta.hash) && state.meta.hash === hash;
+                }
+            ) || null
+        );
     }
 
     getStatesFromHash(hash: string): Array<PushedStateType> | null {
@@ -520,7 +533,8 @@ class Room {
     }
 
     getAttr(): AttrType {
-        return this._attr; // eslint-disable-line no-underscore-dangle
+        // eslint-disable-next-line no-underscore-dangle, id-match
+        return this._attr;
     }
 
     getDefaultActiveUserId(): string {

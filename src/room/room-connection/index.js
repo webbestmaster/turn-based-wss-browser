@@ -26,7 +26,6 @@ type AttrType = {|
     |}
 |};
 
-
 /**
  *
  * @constructor
@@ -37,12 +36,14 @@ type AttrType = {|
  *      @param {Object} options.room - parent room
  */
 class RoomConnection {
-    _attr: AttrType; // eslint-disable-line no-underscore-dangle, id-match
+    // eslint-disable-next-line no-underscore-dangle, id-match
+    _attr: AttrType;
 
     constructor(options: RoomConnectionConstructorOptionType) {
         const roomConnection = this;
 
-        roomConnection._attr = { // eslint-disable-line no-underscore-dangle, id-match
+        // eslint-disable-next-line no-underscore-dangle, id-match
+        roomConnection._attr = {
             socketId: options.socketId,
             userId: options.userId,
             room: options.room,
@@ -146,7 +147,7 @@ class RoomConnection {
         return socketIoServer.sockets.connected[socketId] || null;
     }
 
-    getTimers(): {| onDisconnect: Stopwatch | null |} {
+    getTimers(): {|onDisconnect: Stopwatch | null|} {
         return this.getAttr().timers;
     }
 
@@ -159,7 +160,8 @@ class RoomConnection {
     }
 
     getAttr(): AttrType {
-        return this._attr; // eslint-disable-line no-underscore-dangle
+        // eslint-disable-next-line no-underscore-dangle
+        return this._attr;
     }
 
     getType(): 'human' | 'bot' {

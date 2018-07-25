@@ -1,11 +1,13 @@
 // @flow
 
 module.exports = {
-    ROOM_NOT_FOUND: { // eslint-disable-line id-match
+    // eslint-disable-next-line id-match
+    ROOM_NOT_FOUND: {
         id: '0001',
         message: 'Room NOT found. Room id is {{roomId}}'
     },
-    WRONG_PARAMETERS: { // eslint-disable-line id-match
+    // eslint-disable-next-line id-match
+    WRONG_PARAMETERS: {
         id: '0002',
         message: 'Wrong url parameters {{params}}'
     }

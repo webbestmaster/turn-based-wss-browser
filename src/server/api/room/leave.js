@@ -22,7 +22,6 @@ module.exports = (req: LocalExpressRequest, res: LocalExpressResponse) => {
         return;
     }
 
-
     room.leave(userId);
 
     res.json({
