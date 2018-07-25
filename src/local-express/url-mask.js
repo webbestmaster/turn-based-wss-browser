@@ -56,7 +56,7 @@ class UrlMask {
                 return false;
             }
 
-            if (maskPart.indexOf(':') === 0) {
+            if (maskPart.startsWith(':')) {
                 return true;
             }
 
@@ -86,7 +86,7 @@ class UrlMask {
                 return;
             }
 
-            if (maskPart.indexOf(':') !== 0) {
+            if (!maskPart.startsWith(':')) {
                 return;
             }
 

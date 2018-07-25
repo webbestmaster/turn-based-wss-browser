@@ -9,6 +9,17 @@ const {LocalSocketIoClient} = require('./../local-socket-io-client');
 
 const {localMaster} = require('./../local-master');
 
+const {
+    isBoolean,
+    isNumber,
+    isString,
+    isFunction,
+    isNotBoolean,
+    isNotNumber,
+    isNotString,
+    isNotFunction
+} = require('./../helper');
+
 /*
 return socketIoServer.sockets.connected[socketId] || null;
 */
@@ -95,7 +106,7 @@ class LocalSocketIoServer {
             localSocketIoServer.disconnectSocket(socket);
         });
 
-        if (typeof callback === 'function') {
+        if (isFunction(callback)) {
             setTimeout(callback, 0);
         }
     }

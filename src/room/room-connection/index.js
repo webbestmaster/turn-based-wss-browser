@@ -2,11 +2,11 @@
 
 /* eslint consistent-this: ["error", "roomConnection"] */
 
-const messageConst = require('../message-data.js');
-const roomConfig = require('../config-data.js');
+const messageConst = require('./../message-data.js');
+const roomConfig = require('./../config-data.js');
 const Stopwatch = require('timer-stopwatch');
-const {Server} = require('./../../server/index');
-const {Room} = require('./../index');
+const {Server} = require('./../../server');
+const {Room} = require('./..');
 const {LocalSocketIoClient} = require('./../../local-socket-io-client');
 
 type RoomConnectionConstructorOptionType = {|

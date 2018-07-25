@@ -4,7 +4,17 @@
 
 /* eslint consistent-this: ["error", "httpServer"] */
 import type {RequestCallBackType} from './../local-request';
-import type {PushedStateType} from './../room/index';
+import type {PushedStateType} from './../room';
+const {
+    isBoolean,
+    isNumber,
+    isString,
+    isFunction,
+    isNotBoolean,
+    isNotNumber,
+    isNotString,
+    isNotFunction
+} = require('./../helper');
 
 const {localMaster} = require('./../local-master');
 const {LocalExpress} = require('./../local-express');
@@ -54,7 +64,7 @@ class LocalHttpServer {
 
         httpServer.bindEventListener();
 
-        if (typeof callback === 'function') {
+        if (isFunction(callback)) {
             setTimeout(callback, 0);
         }
     }
@@ -64,7 +74,7 @@ class LocalHttpServer {
 
         httpServer.unbindEventListener();
 
-        if (typeof callback === 'function') {
+        if (isFunction(callback)) {
             setTimeout(callback, 0);
         }
     }

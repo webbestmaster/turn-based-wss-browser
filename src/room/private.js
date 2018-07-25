@@ -2,7 +2,7 @@
 
 const Stopwatch = require('timer-stopwatch');
 const roomConfig = require('./config-data.js');
-const {Room} = require('./index');
+const {Room} = require('.');
 const timersConfig = roomConfig.timers;
 
 function bindTimers(room: Room) {

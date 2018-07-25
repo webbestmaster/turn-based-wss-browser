@@ -5,10 +5,20 @@
 /* global __dirname */
 
 const {LocalExpress} = require('./../local-express');
-const {LocalSocketIoServer} = require('../local-socket-io-server');
+const {LocalSocketIoServer} = require('./../local-socket-io-server');
 const {LocalHttpServer} = require('./../local-http-server');
 const apiRouter = require('./api-router').apiRouter;
 const roomMaster = require('./../room/master').roomMaster;
+const {
+    isBoolean,
+    isNumber,
+    isString,
+    isFunction,
+    isNotBoolean,
+    isNotNumber,
+    isNotString,
+    isNotFunction
+} = require('./../helper');
 
 type ServerConstructorOptionsType = {|
     port: number
@@ -41,7 +51,7 @@ class Server {
 
         server._attr = { // eslint-disable-line no-underscore-dangle, id-match
             options: {
-                port: typeof options.port === 'number' ? options.port : serverDefaultOptions.port
+                port: isNumber(options.port) ? options.port : serverDefaultOptions.port
             },
             expressApp,
             httpServer,
@@ -94,8 +104,10 @@ class Server {
                 new Promise((resolve: () => void, reject: () => void): void => socketIoServer.close(resolve)),
                 new Promise((resolve: () => void, reject: () => void): void => httpServer.close(resolve))
             ])
-            .then(() => {
-                console.log('TBW top listen on local:' + options.port);
+            .then((): void => console.log('TBW stop listen on local:', options.port))
+            .catch((error: Error) => {
+                console.error('error with TBW stop listen on local:', options.port);
+                console.error(error);
             });
     }
 

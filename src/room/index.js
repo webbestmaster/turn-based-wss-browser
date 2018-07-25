@@ -1,6 +1,16 @@
 // @flow
 
 /* eslint consistent-this: ["error", "room"] */
+const {
+    isBoolean,
+    isNumber,
+    isString,
+    isFunction,
+    isNotBoolean,
+    isNotNumber,
+    isNotString,
+    isNotFunction
+} = require('./../helper');
 
 type PushedStatePayloadIsGameStartedType = {|
     +isGameStart: boolean,
@@ -136,7 +146,7 @@ export type PushedStateType = {|
 
 const {roomMaster} = require('./master');
 const {RoomConnection} = require('./room-connection');
-const {Server} = require('./../server/index');
+const {Server} = require('./../server');
 const find = require('lodash/find');
 const sha1 = require('sha1');
 const messageConst = require('./message-data.js');
@@ -441,7 +451,7 @@ class Room {
                 return false;
             }
 
-            return typeof state.meta.hash === 'string' && state.meta.hash === hash;
+            return isString(state.meta.hash) && state.meta.hash === hash;
         }) ||
             null;
     }
@@ -547,7 +557,7 @@ class Room {
         Object.keys(timers).forEach((timerKey: string) => {
             const timer = timers[timerKey];
 
-            if (timer && typeof timer.stop === 'function') {
+            if (timer && isFunction(timer.stop)) {
                 timer.stop();
             }
             timers[timerKey] = null;

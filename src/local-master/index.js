@@ -6,7 +6,7 @@ const {LocalHttpServer} = require('./../local-http-server');
 const {LocalSocketIoServer} = require('./../local-socket-io-server');
 const {getPort} = require('./../helper');
 
-import type {PushedStateType} from './../room/index';
+import type {PushedStateType} from './../room';
 
 import type {RequestCallBackType} from './../local-request';
 

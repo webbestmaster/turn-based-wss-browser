@@ -1,6 +1,6 @@
 // @flow
 
-const {Server} = require('./../../index');
+const {Server} = require('./../..');
 const {LocalExpressRequest} = require('./../../../local-express/request');
 const {LocalExpressResponse} = require('./../../../local-express/response');
 const Room = require('./../../../room').Room;

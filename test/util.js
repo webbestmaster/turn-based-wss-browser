@@ -1,5 +1,5 @@
 /* global setTimeout */
-const {localRequest} = require('./../module/local-request');
+const localRequest = require('./../module/local-request');
 const {LocalSocketIoClient} = require('./../module/local-socket-io-client');
 
 module.exports.getAsJson = url => {

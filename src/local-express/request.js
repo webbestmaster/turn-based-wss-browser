@@ -1,7 +1,7 @@
 // @flow
 
 /* eslint consistent-this: ["error", "localExpressRequest"] */
-import type {PushedStateType, SettingsType} from './../room/index';
+import type {PushedStateType} from './../room';
 
 type ParamsType = { +[key: string]: string };
 type ConstructorOptionsType = {|
