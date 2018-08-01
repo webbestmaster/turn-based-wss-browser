@@ -65,7 +65,7 @@ class Server {
 
             httpServer.listen(options.port, () => {
                 socketIoServer.bindEventListener();
-                console.log('TBW listening on local:' + options.port);
+                console.log('Local TBW listening on local:' + options.port);
                 resolve();
             });
 
